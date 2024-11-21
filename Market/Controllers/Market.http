@@ -1,0 +1,11 @@
+@url=http://localhost:5117
+
+GET  {{url}}/api/GetProductById/1
+content-type: application/json
+
+{
+    "name": "iPhone 16 Pro",
+    "price": 1200.00,
+    "status": 2
+}
+
