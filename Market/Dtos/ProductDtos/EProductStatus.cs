@@ -1,4 +1,4 @@
-namespace Market.Shared;
+namespace Market.Dtos.ProductDtos;
 
 public enum EProductStatus
 {

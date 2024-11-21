@@ -1,4 +1,4 @@
-using Market.Shared;
+using Market.Models;
 
 namespace Market.Models;
 

@@ -24,7 +24,7 @@ public class ProductService(IProductDbContext dbContext) : IProductService
     public async Task<bool> DeleteProductAsync(Guid id)
     {
         var productEntity = await dbContext.Products.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id);
-        var productModel = productEntity.ToModel();
+        var productModel = productEntity!.ToModel();
 
         if (productModel == null) return false;
 
@@ -66,12 +66,12 @@ public class ProductService(IProductDbContext dbContext) : IProductService
     {
         var existingProductEntity = await dbContext.Products.FindAsync(id);
         
-        if (existingProductEntity == null) return null;
+        if (existingProductEntity == null) return existingProductEntity!.ToModel();
 
-        existingProductEntity.Name = productUpdateDto.Name;
+        existingProductEntity.Name = productUpdateDto.Name!;
         existingProductEntity.Price = productUpdateDto.Price;
         existingProductEntity.ModifiedAt = DateTime.UtcNow;
-        existingProductEntity.Status = productUpdateDto.Status;
+        existingProductEntity.Status = (Entities.EProductStatus)productUpdateDto.Status;
 
         await dbContext.SaveChangesAsync();
         return existingProductEntity.ToModel();

@@ -12,10 +12,9 @@ public class ProductDetailService(IProductDbContext dbContext) : IProductDetailS
     {
         var productDetailEntity = await dbContext.
                                     ProductDetails
-                                    .FirstOrDefaultAsync(d => d.ProductId == productId);
+                                    .FirstOrDefaultAsync(d => d.ProductId == Guid.Parse(productId.ToString().Trim()));
 
-        
-        return productDetailEntity.ToModel();
+        return productDetailEntity!.ToModel();
     }
 
     public async Task<ProductDetail> CreateProductDetailAsync(Guid productId, ProductDetail detail)
@@ -33,7 +32,7 @@ public class ProductDetailService(IProductDbContext dbContext) : IProductDetailS
     public async Task<ProductDetail> UpdateProductDetailAsync(Guid productId, ProductDetail detail)
     {
         var existingDetailEntity = await dbContext.ProductDetails.FirstOrDefaultAsync(d => d.ProductId == productId);
-        if (existingDetailEntity == null) return null;
+        if (existingDetailEntity == null) return null!;
         
         existingDetailEntity.Description = detail.Description;
         existingDetailEntity.Color = detail.Color;

@@ -25,7 +25,7 @@ public class ProductsController(IProductService productService, ILogger<Products
                 Price = p.Price,
                 CreatedAt = p.CreatedAt,
                 ModifiedAt = p.ModifiedAt,
-                Status = p.Status
+                Status = (EProductStatus)p.Status
             }));
         }
         catch (Exception ex)
@@ -56,7 +56,7 @@ public class ProductsController(IProductService productService, ILogger<Products
                 Price = product.Price,
                 CreatedAt = product.CreatedAt,
                 ModifiedAt = product.ModifiedAt,
-                Status = product.Status
+                Status = (EProductStatus)product.Status
             });
         }
         catch (Exception ex)
@@ -91,7 +91,7 @@ public class ProductsController(IProductService productService, ILogger<Products
                 Price = createdProduct.Price,
                 CreatedAt = createdProduct.CreatedAt,
                 ModifiedAt = createdProduct.ModifiedAt,
-                Status = createdProduct.Status
+                Status = (EProductStatus)createdProduct.Status
             });
         }
         catch (Exception ex)
