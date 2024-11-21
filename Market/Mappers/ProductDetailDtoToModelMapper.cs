@@ -41,16 +41,16 @@ public static class ProductDetailDtoToModelMapper
     {
         return new ProductDetailReadDto
         {
-            Description = model.Description,
-            Color = model.Color,
-            Material = model.Material,
-            Weight = model.Weight,
-            QuantityInStock = model.QuantityInStock,
-            ManufactureDate = model.ManufactureDate,
-            ExpiryDate = model.ExpiryDate,
-            Size = model.Size,
-            Manufacturer = model.Manufacturer,
-            CountryOfOrigin = model.CountryOfOrigin
+            Description = model.Description!,
+            Color = model.Color!,
+            Material = model.Material!,
+            Weight = model.Weight!,
+            QuantityInStock = model.QuantityInStock!,
+            ManufactureDate = model.ManufactureDate!,
+            ExpiryDate = model.ExpiryDate!,
+            Size = model.Size!,
+            Manufacturer = model.Manufacturer!,
+            CountryOfOrigin = model.CountryOfOrigin!
         };
     }
 

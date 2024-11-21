@@ -9,7 +9,7 @@ public static class ProductDtoToModelMapper
         {
             Name = dto.Name,
             Price = dto.Price,
-            Status = dto.Status,
+            Status = (Models.EProductStatus)dto.Status,
             CreatedAt = DateTime.UtcNow,
             ModifiedAt = DateTime.UtcNow
         };
@@ -24,7 +24,7 @@ public static class ProductDtoToModelMapper
             Price = model.Price,
             CreatedAt = model.CreatedAt,
             ModifiedAt = model.ModifiedAt,
-            Status = model.Status
+            Status = (EProductStatus)model.Status
         };
     }
 
@@ -32,7 +32,7 @@ public static class ProductDtoToModelMapper
     {
         model.Name = dto.Name;
         model.Price = dto.Price;
-        model.Status = dto.Status;
+        model.Status = (Models.EProductStatus)dto.Status;
         model.ModifiedAt = DateTime.UtcNow;
     }
 }

@@ -1,12 +1,16 @@
 using Microsoft.AspNetCore.Mvc;
 using Market.Interfaces;
 using Market.Mappers;
+using Market.Validators;
 
 namespace Market.Controllers;
 
 [ApiController]
 [Route("api/products/{productId}/details")]
-public class ProductDetailsController(IProductDetailService productDetailService, ILogger<ProductDetailsController> logger) : ControllerBase
+public class ProductDetailsController(IProductDetailService productDetailService, 
+                            ILogger<ProductDetailsController> logger,
+                            ProductDetailCreateDtoValidator productDetailCreateValidator,
+                            ProductDetailUpdateDtoValidator productDetailUpdateValidator) : ControllerBase
 {
     [HttpPost]
     public async Task<IActionResult> CreateProductDetail(Guid productId, [FromBody] Dtos.ProductDetailDtos.ProductDetailCreateDto detail)
@@ -14,6 +18,13 @@ public class ProductDetailsController(IProductDetailService productDetailService
         if (detail == null)
         {
             return BadRequest("Product detail cannot be null.");
+        }
+        var validationResult = await productDetailCreateValidator.ValidateAsync(detail);
+
+        if (validationResult.IsValid is not true)
+        {
+            logger.LogWarning("Validation failed: {errors}", validationResult.Errors);
+            return new StatusCodeResult(500);
         }
 
         try
@@ -57,6 +68,14 @@ public class ProductDetailsController(IProductDetailService productDetailService
         if (detail == null)
         {
             return BadRequest("Product detail cannot be null.");
+        }
+
+        var validationResult = await productDetailUpdateValidator.ValidateAsync(detail);
+
+        if (validationResult.IsValid is not true)
+        {
+            logger.LogWarning("Validation failed: {errors}", validationResult.Errors);
+            return new StatusCodeResult(500);
         }
 
         try

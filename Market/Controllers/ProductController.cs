@@ -2,17 +2,22 @@ using Market.Dtos.ProductDtos;
 using Market.Interfaces;
 using Market.Mappers;
 using Microsoft.AspNetCore.Mvc;
+using Market.Validators;
 
 namespace Market.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class ProductsController(IProductService productService, ILogger<ProductsController> logger) : ControllerBase
+public class ProductsController(IProductService productService, 
+                            ILogger<ProductsController> logger, 
+                            ProductCreateDtoValidator productValidator,
+                            ProductUpdateDtoValidator productUpdateValidator ) : ControllerBase
 {
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ProductReadDto>>> GetAllProducts()
     {
         logger.LogInformation("Received request to get all products");
+
         try
         {
             var products = await productService.GetAllProductsAsync();
@@ -71,6 +76,14 @@ public class ProductsController(IProductService productService, ILogger<Products
     {
         logger.LogInformation("New product is received. Product name {Name}, Product {Price}, Product status{Status}", dto.Name, dto.Price, dto.Status);
 
+        var validationResult = await productValidator.ValidateAsync(dto);
+
+        if (validationResult.IsValid is not true)
+        {
+            logger.LogWarning("Validation failed: {errors}", validationResult.Errors);
+            return new StatusCodeResult(500);
+        }
+
         var product = new ProductCreateDto
         {
             Name = dto.Name,
@@ -105,6 +118,14 @@ public class ProductsController(IProductService productService, ILogger<Products
     public async Task<ActionResult<ProductReadDto>> UpdateProduct(Guid id, ProductUpdateDto dto)
     {
         logger.LogInformation("Reveived request to update product with Id: {Id}", id);
+
+        var validationResult = await productUpdateValidator.ValidateAsync(dto);
+
+        if (validationResult.IsValid is not true)
+        {
+            logger.LogWarning("Validation failed: {errors}", validationResult.Errors);
+            return new StatusCodeResult(500);
+        }
 
         var productUpdateDto = new ProductUpdateDto
         {

@@ -2,6 +2,7 @@ using Market.Data;
 using Market.Interfaces;
 using Market.Services;
 using Microsoft.EntityFrameworkCore;
+using Market.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,10 @@ builder.Services.AddDbContext<IProductDbContext, ProductDbContext>(options =>
 // Xizmatlarni ro'yxatdan o'tkazish
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IProductDetailService, ProductDetailService>();
+builder.Services.AddTransient<ProductCreateDtoValidator>();
+builder.Services.AddTransient<ProductDetailCreateDtoValidator>();
+builder.Services.AddTransient<ProductUpdateDtoValidator>();
+builder.Services.AddTransient<ProductDetailUpdateDtoValidator>();
 
 // Kontrollerlarni qo'shish
 builder.Services.AddControllers();

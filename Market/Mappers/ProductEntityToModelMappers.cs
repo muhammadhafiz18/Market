@@ -10,7 +10,7 @@ public static class ProductEntityToModelMapper
             Price = entity.Price,
             CreatedAt = entity.CreatedAt,
             ModifiedAt = entity.ModifiedAt,
-            Status = entity.Status,
+            Status = (Models.EProductStatus)entity.Status,
             ProductDetail = entity.ProductDetail?.ToModel()
         };
     }
@@ -24,7 +24,7 @@ public static class ProductEntityToModelMapper
             Price = model.Price,
             CreatedAt = model.CreatedAt,
             ModifiedAt = model.ModifiedAt,
-            Status = model.Status,
+            Status = (Entities.EProductStatus)model.Status,
             ProductDetail = model.ProductDetail?.ToEntity()
         };
     }
